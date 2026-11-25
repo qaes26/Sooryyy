@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى حبيبتي شادية 🤍</title>
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- تحميل خطوط عربية أنيقة (Tajawal و Amiri و Aref Ruqaa) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Aref+Ruqaa:wght@700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* إعدادات الخطوط الأساسية والرسوم المتحركة المخصصة */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            overflow: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-ruqaa {
+            font-family: 'Aref Ruqaa', serif;
+        }
+
+        .font-amiri {
+            font-family: 'Amiri', serif;
+        }
+
+        /* حركة نبض ناعمة للقلب */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.18); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.12); }
+            60% { transform: scale(1); }
+        }
+
+        .animate-heartbeat {
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+
+        /* حركة طفو ناعمة للبطاقة */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .animate-float {
+            animation: floatSlow 5s infinite ease-in-out;
+        }
+
+        /* تأثير لمعان للزر الرئيسي */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .btn-shimmer {
+            background-size: 200% auto;
+            animation: shimmer 3.5s linear infinite;
+        }
+
+        /* انتقال ناعم بين الحالات */
+        .fade-transition {
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), background-color 1.5s ease, border-color 1.5s ease, box-shadow 1.5s ease;
+        }
+    </style>
+</head>
+<body class="relative w-screen h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
+
+    <!-- خلفية الكانفس التفاعلية (المطر، الغيوم، الشمس، والقلوب) -->
+    <canvas id="sceneCanvas" class="fixed inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+
+    <!-- حاوية البطاقة الرئيسية -->
+    <main class="relative z-10 w-full max-w-md px-4 sm:px-6">
+        
+        <!-- بطاقة الاعتذار (تظهر في حالة المطر) -->
+        <div id="apologyCard" class="fade-transition animate-float bg-slate-900/55 backdrop-blur-xl border border-slate-400/20 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/50 text-center">
+            
+            <!-- أيقونة سحابة وقلب -->
+            <div class="mx-auto mb-5 w-20 h-20 rounded-full bg-slate-800/70 border border-sky-300/20 flex items-center justify-center shadow-inner">
+                <svg class="w-11 h-11 text-sky-300 drop-shadow-[0_0_12px_rgba(125,211,252,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+                    <path d="M8 19v2"/>
+                    <path d="M12 19v2"/>
+                    <path d="M16 19v2"/>
+                    <path d="M12 11.5c-.8-1.2-2.6-1.2-3.2 0-.5 1 .2 2.2 3.2 4 3-1.8 3.7-3 3.2-4-.6-1.2-2.4-1.2-3.2 0z" fill="#fb7185" stroke="#fb7185"/>
+                </svg>
+            </div>
+
+            <!-- اسم الحبيبة -->
+            <p class="text-sky-300/90 text-sm sm:text-base font-medium tracking-wide mb-1">رسالة من قلبي...</p>
+            <h1 class="font-ruqaa text-3xl sm:text-4xl text-white mb-4 drop-shadow-md">
+                حبيبتي شادية 🤍
+            </h1>
+
+            <!-- نص الاعتذار -->
+            <div class="space-y-3 text-slate-200/95 text-base sm:text-lg leading-relaxed mb-7">
+                <p>
+                    آسف من كل قلبي إني زعلتك... والله الدنيا كلها عندي غيم ومطر لما تكوني زعلانة مني.
+                </p>
+                <p id="pleaText" class="text-sky-200/90 text-sm sm:text-base font-medium min-h-[24px] transition-all duration-300">
+                    ما بتطلع الشمس بحياتي غير لما ترضي وتضحكي يا أغلى ما عندي 🥺
+                </p>
+            </div>
+
+            <!-- أزرار التفاعل -->
+            <div class="flex flex-col gap-3 items-center">
+                <!-- الزر الرئيسي: سامحتك يروحي -->
+                <button id="forgiveBtn" type="button" class="w-full py-4 px-6 rounded-2xl font-bold text-lg sm:text-xl text-white bg-gradient-to-r from-rose-500 via-amber-400 to-rose-500 btn-shimmer shadow-lg shadow-rose-500/30 hover:shadow-amber-400/50 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
+                    <span>سامحتك يروحي</span>
+                    <span class="text-2xl">☀️🤍</span>
+                </button>
+
+                <!-- زر لطيف في حال لسا زعلانة -->
+                <button id="stillMadBtn" type="button" class="py-2.5 px-5 rounded-xl text-sm text-slate-300/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all duration-300 cursor-pointer">
+                    لسا زعلانة شوي 🌧️
+                </button>
+            </div>
+        </div>
+
+        <!-- بطاقة الحب بعد المسامحة (تظهر عند طلوع الشمس) -->
+        <div id="forgivenCard" class="hidden opacity-0 scale-90 fade-transition bg-white/75 backdrop-blur-xl border border-amber-200/80 rounded-3xl p-6 sm:p-9 shadow-2xl shadow-amber-500/20 text-center">
+            
+            <!-- أيقونة الشمس والقلب -->
+            <div class="mx-auto mb-5 w-24 h-24 rounded-full bg-gradient-to-br from-amber-200 via-yellow-100 to-rose-100 border-2 border-amber-300/70 flex items-center justify-center shadow-lg shadow-amber-300/40">
+                <svg class="w-14 h-14 text-rose-500 animate-heartbeat drop-shadow-[0_4px_12px_rgba(244,63,94,0.45)]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <!-- شارة لطيفة -->
+            <div class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/90 border border-amber-300/60 text-amber-800 text-xs sm:text-sm font-bold mb-4">
+                <span>☀️</span>
+                <span>نورت الدنيا يا شادية</span>
+            </div>
+
+            <!-- الجملة المطلوبة بخط بارز وجميل -->
+            <h2 class="font-amiri text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 leading-snug mb-4 drop-shadow-sm">
+                بحبك وعهد الله اني بحبك وبعشقك
+            </h2>
+
+            <!-- رسالة دافئة مكملة -->
+            <p class="text-slate-700 text-base sm:text-lg leading-relaxed font-medium mb-7">
+                يا روح قلبي ويا شمس أيامي، ربي ما يحرمني منك ومن حنيتك أبداً.. ضحكتك عندي بالدنيا وما فيها ❤️✨
+            </p>
+
+            <!-- أزرار تفاعلية إضافية -->
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <button id="moreLoveBtn" type="button" class="flex-1 min-w-[160px] py-3.5 px-5 rounded-2xl font-bold text-base text-white bg-gradient-to-r from-rose-500 to-pink-500 shadow-md shadow-rose-400/40 hover:shadow-lg active:scale-95 transition-all duration-200 cursor-pointer">
+                    ابعتلي كمان حب ❤️
+                </button>
+                <button id="replayBtn" type="button" class="py-3.5 px-4 rounded-2xl font-medium text-sm text-amber-900/80 bg-amber-100/80 hover:bg-amber-200/80 active:scale-95 transition-all duration-200 cursor-pointer" title="إعادة المشهد">
+                    إعادة 🌧️
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- نص تفاعلي صغير بالأسفل يظهر بعد طلوع الشمس -->
+    <p id="tapHint" class="fixed bottom-4 inset-x-0 text-center text-amber-900/70 text-xs sm:text-sm font-medium z-10 opacity-0 transition-opacity duration-1000 pointer-events-none">
+        المسي أي مكان بالشاشة لتتطاير القلوب ✨
+    </p>
+
+    <script>
+        /**
+         * إعداد المشهد التفاعلي (المطر -> الشمس) باستخدام HTML5 Canvas
+         */
+        const canvas = document.getElementById('sceneCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // عناصر واجهة المستخدم
+        const apologyCard = document.getElementById('apologyCard');
+        const forgivenCard = document.getElementById('forgivenCard');
+        const forgiveBtn = document.getElementById('forgiveBtn');
+        const stillMadBtn = document.getElementById('stillMadBtn');
+        const pleaText = document.getElementById('pleaText');
+        const moreLoveBtn = document.getElementById('moreLoveBtn');
+        const replayBtn = document.getElementById('replayBtn');
+        const tapHint = document.getElementById('tapHint');
+
+        // متغيرات حالة المشهد
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let isSunny = false;
+        let sunProgress = 0; // 0 = مطر وعاصفة، 1 = شمس مشرقة بالكامل
+        let time = 0;
+        let madClickCount = 0;
+
+        // رسائل لطيفة في حال ضغطت "لسا زعلانة شوي"
+        const pleas = [
+            "والله ما يهون علي زعلك يا شادية 🥺🤍",
+            "طيب كرمال عيونك الحلوين سامحيني؟ 🌹",
+            "المطر ما رح يوقف إلا لما تكبسي سامحتك يروحي 🌧️💔",
+            "بوعدك ما أعيدها أبداً.. قلبي ما إله غيرك يا روحي 🥺❤️",
+            "يلا يا أحلى شادية بالكون.. طلّعي الشمس بحياتي ☀️🤍"
+        ];
+
+        // مصفوفات الجسيمات
+        let raindrops = [];
+        let splashes = [];
+        let clouds = [];
+        let hearts = [];
+        let sparkles = [];
+
+        /**
+         * ضبط أبعاد الكانفس لتتناسب مع حجم الشاشة ودقتها
+         */
+        function resizeCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            initEnvironment();
+        }
+
+        /**
+         * تهيئة قطرات المطر والغيوم والجزيئات المضيئة
+         */
+        function initEnvironment() {
+            // إنشاء قطرات المطر
+            const rainCount = Math.min(Math.floor(width / 5), 180);
+            raindrops = [];
+            for (let i = 0; i < rainCount; i++) {
+                raindrops.push(createRaindrop(true));
+            }
+
+            // إنشاء الغيوم الداكنة التي ستنقشع لاحقاً
+            clouds = [];
+            const cloudCount = 7;
+            for (let i = 0; i < cloudCount; i++) {
+                clouds.push({
+                    x: (width / cloudCount) * i + Math.random() * 100 - 50,
+                    y: Math.random() * (height * 0.25) + 20,
+                    radius: Math.random() * 80 + 70,
+                    speed: (Math.random() * 0.3 + 0.15) * (i % 2 === 0 ? 1 : -1),
+                    side: i < cloudCount / 2 ? -1 : 1 // اتجاه الانقشاع
+                });
+            }
+
+            // إنشاء جزيئات ضوء ذهبية (تظهر مع الشمس)
+            sparkles = [];
+            for (let i = 0; i < 45; i++) {
+                sparkles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 3 + 1,
+                    speedY: -Math.random() * 0.4 - 0.1,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function createRaindrop(randomY = false) {
+            const depth = Math.random(); // لعمل تأثير العمق
+            return {
+                x: Math.random() * (width + 100) - 50,
+                y: randomY ? Math.random() * height : -30,
+                length: 12 + depth * 18,
+                speed: 7 + depth * 9,
+                wind: -1.5 - depth * 1.2,
+                opacity: 0.2 + depth * 0.45,
+                thickness: 0.8 + depth * 1.1
+            };
+        }
+
+        /**
+         * إنشاء قلوب متطايرة عند الاحتفال أو الضغط على الشاشة
+         */
+        function spawnHearts(originX, originY, count = 12) {
+            const colors = ['#f43f5e', '#fb7185', '#ec4899', '#f59e0b', '#fda4af'];
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.6;
+                const speed = Math.random() * 3.5 + 1.5;
+                hearts.push({
+                    x: originX + (Math.random() - 0.5) * 40,
+                    y: originY + (Math.random() - 0.5) * 40,
+                    vx: Math.cos(angle) * speed * 0.7,
+                    vy: -Math.abs(Math.sin(angle) * speed) - Math.random() * 2 - 1,
+                    size: Math.random() * 14 + 10,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1,
+                    rotation: (Math.random() - 0.5) * 0.5,
+                    rotSpeed: (Math.random() - 0.5) * 0.04,
+                    life: 1
+                });
+            }
+        }
+
+        /**
+         * دالة مساعدة لدمج الألوان بسلاسة أثناء التحول من المطر إلى الشمس
+         */
+        function lerpColor(c1, c2, t) {
+            const r = Math.round(c1[0] + (c2[0] - c1[0]) * t);
+            const g = Math.round(c1[1] + (c2[1] - c1[1]) * t);
+            const b = Math.round(c1[2] + (c2[2] - c1[2]) * t);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        /**
+         * رسم السماء بتدرج لوني ينتقل من الرمادي الممطر إلى السماء الصافية الدافئة
+         */
+        function drawSky() {
+            const topColor = lerpColor([15, 23, 42], [56, 189, 248], sunProgress);       // من كحلي ليلي إلى أزرق سماوي مشرق
+            const midColor = lerpColor([30, 41, 59], [186, 230, 253], sunProgress);     // من رمادي غائم إلى أزرق فاتح
+            const botColor = lerpColor([51, 65, 85], [254, 240, 138], sunProgress);     // من أردوازي إلى ذهبي دافئ
+
+            const grad = ctx.createLinearGradient(0, 0, 0, height);
+            grad.addColorStop(0, topColor);
+            grad.addColorStop(0.55, midColor);
+            grad.addColorStop(1, botColor);
+
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        /**
+         * رسم الشمس المشرقة وأشعتها الدوارة عند المسامحة
+         */
+        function drawSun() {
+            if (sunProgress <= 0.02) return;
+
+            // موقع الشمس (ترتفع بسلاسة من الأفق للأعلى)
+            const sunX = width < 640 ? width * 0.5 : width * 0.2;
+            const targetY = width < 640 ? height * 0.14 : height * 0.2;
+            const startY = height * 0.55;
+            const eased = 1 - Math.pow(1 - sunProgress, 3); // حركة ناعمة
+            const sunY = startY + (targetY - startY) * eased;
+            const baseRadius = width < 640 ? 48 : 65;
+
+            ctx.save();
+            ctx.globalAlpha = Math.min(sunProgress * 1.2, 1);
+
+            // هالة ضوئية كبيرة حول الشمس
+            const outerGlow = ctx.createRadialGradient(sunX, sunY, baseRadius * 0.4, sunX, sunY, baseRadius * 5.5);
+            outerGlow.addColorStop(0, 'rgba(255, 247, 173, 0.85)');
+            outerGlow.addColorStop(0.25, 'rgba(253, 224, 71, 0.45)');
+            outerGlow.addColorStop(0.6, 'rgba(251, 191, 36, 0.12)');
+            outerGlow.addColorStop(1, 'rgba(251, 191, 36, 0)');
+
+            ctx.fillStyle = outerGlow;
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, baseRadius * 5.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // أشعة الشمس الدوارة
+            ctx.save();
+            ctx.translate(sunX, sunY);
+            ctx.rotate(time * 0.004);
+            const rayCount = 14;
+            for (let i = 0; i < rayCount; i++) {
+                ctx.rotate((Math.PI * 2) / rayCount);
+                const rayGrad = ctx.createLinearGradient(0, 0, baseRadius * 3.8, 0);
+                rayGrad.addColorStop(0, 'rgba(254, 249, 195, 0.45)');
+                rayGrad.addColorStop(1, 'rgba(254, 249, 195, 0)');
+
+                ctx.fillStyle = rayGrad;
+                ctx.beginPath();
+                ctx.moveTo(0, -baseRadius * 0.15);
+                ctx.lineTo(baseRadius * 3.8, -baseRadius * 0.42);
+                ctx.lineTo(baseRadius * 3.8, baseRadius * 0.42);
+                ctx.lineTo(0, baseRadius * 0.15);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // قرص الشمس المتوهج
+            const coreGrad = ctx.createRadialGradient(sunX, sunY, 5, sunX, sunY, baseRadius);
+            coreGrad.addColorStop(0, '#ffffff');
+            coreGrad.addColorStop(0.55, '#fef08a');
+            coreGrad.addColorStop(1, '#f59e0b');
+
+            ctx.fillStyle = coreGrad;
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, baseRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        /**
+         * رسم الغيوم التي تنقشع وتبتعد عند ظهور الشمس
+         */
+        function drawClouds() {
+            const rainOpacity = Math.max(0, 1 - sunProgress * 1.15);
+            if (rainOpacity <= 0.01) return;
+
+            ctx.save();
+            for (const c of clouds) {
+                c.x += c.speed;
+                if (c.x > width + 200) c.x = -200;
+                if (c.x < -200) c.x = width + 200;
+
+                // إزاحة الغيوم للخارج عند طلوع الشمس
+                const shiftX = c.side * sunProgress * (width * 0.65);
+                const drawX = c.x + shiftX;
+
+                const grad = ctx.createRadialGradient(drawX, c.y, c.radius * 0.1, drawX, c.y, c.radius * 1.4);
+                grad.addColorStop(0, `rgba(71, 85, 105, ${0.55 * rainOpacity})`);
+                grad.addColorStop(0.6, `rgba(51, 65, 85, ${0.35 * rainOpacity})`);
+                grad.addColorStop(1, 'rgba(30, 41, 59, 0)');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(drawX, c.y, c.radius * 1.4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        /**
+         * رسم المطر وتناثر القطرات
+         */
+        function drawRain() {
+            const rainIntensity = Math.max(0, 1 - sunProgress * 1.6);
+            if (rainIntensity <= 0.01) return;
+
+            ctx.save();
+            ctx.lineCap = 'round';
+
+            for (let i = 0; i < raindrops.length; i++) {
+                const drop = raindrops[i];
+                drop.x += drop.wind;
+                drop.y += drop.speed;
+
+                // رسم القطرة
+                ctx.strokeStyle = `rgba(186, 230, 253, ${drop.opacity * rainIntensity})`;
+                ctx.lineWidth = drop.thickness;
+                ctx.beginPath();
+                ctx.moveTo(drop.x, drop.y);
+                ctx.lineTo(drop.x + drop.wind * 1.5, drop.y + drop.length);
+                ctx.stroke();
+
+                // إعادة القطرة للأعلى وإضافة تناثر بسيط بالأسفل
+                if (drop.y > height) {
+                    if (Math.random() < 0.25 && rainIntensity > 0.3) {
+                        splashes.push({
+                            x: drop.x,
+                            y: height - 2,
+                            r: 1,
+                            maxR: Math.random() * 8 + 4,
+                            alpha: 0.4 * rainIntensity
+                        });
+                    }
+                    raindrops[i] = createRaindrop(false);
+                }
+            }
+
+            // رسم دوائر تناثر المطر
+            for (let i = splashes.length - 1; i >= 0; i--) {
+                const s = splashes[i];
+                s.r += 0.4;
+                s.alpha -= 0.025;
+                if (s.alpha <= 0) {
+                    splashes.splice(i, 1);
+                    continue;
+                }
+                ctx.strokeStyle = `rgba(186, 230, 253, ${s.alpha})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.ellipse(s.x, s.y, s.r, s.r * 0.3, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        /**
+         * رسم جزيئات الضوء الذهبية في الجو المشمس
+         */
+        function drawSparkles() {
+            if (sunProgress <= 0.3) return;
+            const alphaBase = (sunProgress - 0.3) / 0.7;
+
+            ctx.save();
+            for (const sp of sparkles) {
+                sp.y += sp.speedY;
+                if (sp.y < -10) {
+                    sp.y = height + 10;
+                    sp.x = Math.random() * width;
+                }
+                const twinkle = 0.4 + 0.6 * Math.sin(time * 0.04 + sp.phase);
+                ctx.fillStyle = `rgba(255, 251, 235, ${twinkle * alphaBase * 0.75})`;
+                ctx.beginPath();
+                ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        /**
+         * رسم القلوب المتطايرة
+         */
+        function drawHearts() {
+            for (let i = hearts.length - 1; i >= 0; i--) {
+                const h = hearts[i];
+                h.x += h.vx;
+                h.y += h.vy;
+                h.vy += 0.02; // جاذبية خفيفة جداً
+                h.rotation += h.rotSpeed;
+                h.life -= 0.008;
+
+                if (h.life <= 0) {
+                    hearts.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.translate(h.x, h.y);
+                ctx.rotate(h.rotation);
+                ctx.globalAlpha = Math.min(h.life * 1.5, 1);
+                ctx.fillStyle = h.color;
+
+                const s = h.size;
+                ctx.beginPath();
+                ctx.moveTo(0, s * 0.3);
+                ctx.bezierCurveTo(-s * 0.5, -s * 0.3, -s, s * 0.2, 0, s);
+                ctx.bezierCurveTo(s, s * 0.2, s * 0.5, -s * 0.3, 0, s * 0.3);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        /**
+         * حلقة الرسم الرئيسية
+         */
+        function animate() {
+            time++;
+
+            // تحديث مستوى إشراق الشمس بسلاسة
+            const targetProgress = isSunny ? 1 : 0;
+            sunProgress += (targetProgress - sunProgress) * 0.028;
+
+            drawSky();
+            drawSun();
+            drawClouds();
+            drawRain();
+            drawSparkles();
+            drawHearts();
+
+            // إطلاق قلوب ناعمة تلقائياً بين الحين والآخر في الجو المشمس
+            if (isSunny && sunProgress > 0.7 && Math.random() < 0.03) {
+                spawnHearts(Math.random() * width, height + 10, 1);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        /**
+         * تشغيل نغمة دافئة وناعمة عند المسامحة باستخدام Web Audio API (بدون روابط خارجية)
+         */
+        function playWarmChime() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const audioCtx = new AudioCtx();
+                // نغمات وتر دافئ (C Major 9)
+                const notes = [261.63, 329.63, 392.00, 493.88, 587.33];
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.11);
+
+                    gain.gain.setValueAtTime(0.001, audioCtx.currentTime + idx * 0.11);
+                    gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + idx * 0.11 + 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + idx * 0.11 + 2.2);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + idx * 0.11);
+                    osc.stop(audioCtx.currentTime + idx * 0.11 + 2.3);
+                });
+            } catch (err) {
+                // تجاهل أي خطأ صوتي بصمت للحفاظ على سلاسة التجربة
+            }
+        }
+
+        /**
+         * معالجة الضغط على زر "سامحتك يروحي"
+         */
+        forgiveBtn.addEventListener('click', () => {
+            if (isSunny) return;
+            isSunny = true;
+            playWarmChime();
+
+            // إطلاق موجة قلوب احتفالية من منتصف الشاشة
+            spawnHearts(width / 2, height / 2, 26);
+
+            // إخفاء بطاقة الاعتذار وإظهار بطاقة الحب والشمس
+            apologyCard.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            setTimeout(() => {
+                apologyCard.classList.add('hidden');
+                forgivenCard.classList.remove('hidden');
+                // تفعيل حركة الظهور الناعمة
+                requestAnimationFrame(() => {
+                    forgivenCard.classList.remove('opacity-0', 'scale-90');
+                    forgivenCard.classList.add('opacity-100', 'scale-100');
+                    tapHint.classList.remove('opacity-0');
+                    tapHint.classList.add('opacity-100');
+                });
+            }, 500);
+        });
+
+        /**
+         * معالجة الضغط على زر "لسا زعلانة شوي"
+         */
+        stillMadBtn.addEventListener('click', () => {
+            pleaText.style.opacity = '0';
+            setTimeout(() => {
+                pleaText.textContent = pleas[madClickCount % pleas.length];
+                pleaText.style.opacity = '1';
+                madClickCount++;
+
+                // تكبير زر المسامحة بشكل لطيف مع كل ضغطة
+                const scale = Math.min(1 + madClickCount * 0.04, 1.15);
+                forgiveBtn.style.transform = `scale(${scale})`;
+            }, 180);
+        });
+
+        /**
+         * زر إرسال المزيد من القلوب
+         */
+        moreLoveBtn.addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            spawnHearts(rect.left + rect.width / 2, rect.top, 20);
+            playWarmChime();
+        });
+
+        /**
+         * زر إعادة المشهد إلى المطر
+         */
+        replayBtn.addEventListener('click', () => {
+            isSunny = false;
+            madClickCount = 0;
+            forgiveBtn.style.transform = 'scale(1)';
+            pleaText.textContent = "ما بتطلع الشمس بحياتي غير لما ترضي وتضحكي يا أغلى ما عندي 🥺";
+
+            tapHint.classList.remove('opacity-100');
+            tapHint.classList.add('opacity-0');
+            forgivenCard.classList.remove('opacity-100', 'scale-100');
+            forgivenCard.classList.add('opacity-0', 'scale-90');
+
+            setTimeout(() => {
+                forgivenCard.classList.add('hidden');
+                apologyCard.classList.remove('hidden', 'pointer-events-none');
+                requestAnimationFrame(() => {
+                    apologyCard.classList.remove('opacity-0', 'scale-95');
+                });
+            }, 500);
+        });
+
+        /**
+         * التفاعل باللمس أو النقر في أي مكان بالشاشة بعد طلوع الشمس لإطلاق القلوب
+         */
+        window.addEventListener('pointerdown', (e) => {
+            if (!isSunny) return;
+            // تجنب التكرار عند الضغط على الأزرار مباشرة
+            if (e.target.closest('button')) return;
+            spawnHearts(e.clientX, e.clientY, 10);
+        });
+
+        // بدء التشغيل عند تحميل الصفحة وتحديث الحجم عند تغيير أبعاد الشاشة
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = function () {
+            resizeCanvas();
+            animate();
+        };
+    </script>
+</body>
+</html>
